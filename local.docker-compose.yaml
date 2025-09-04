@@ -1,0 +1,23 @@
+services:
+  api:
+    build:
+      context: ./server/doc-manager
+      dockerfile: local.Dockerfile
+    restart: always
+    ports:
+      - 8001:8001
+    networks:
+      - internal-network
+
+  www:
+    build:
+      context: ./client/doc-manager
+      dockerfile: local.Dockerfile
+    restart: always
+    ports:
+      - 3000:3000
+    networks:
+      - internal-network
+
+networks:
+  internal-network:
