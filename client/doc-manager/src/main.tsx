@@ -1,4 +1,5 @@
-import ReactDOM from "react-dom/client";
+import { createRoot } from "react-dom/client";
+import { StrictMode } from "react";
 import { BrowserRouter } from "react-router";
 import App from "./App.tsx";
 
@@ -8,10 +9,12 @@ import "@fontsource/roboto/400.css";
 import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 
-const root = document.getElementById("root");
+const root: HTMLElement | null = document.getElementById("root");
 
-ReactDOM.createRoot(root!).render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>
+createRoot(root!).render(
+  <StrictMode>
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </StrictMode>
 );
