@@ -6,7 +6,7 @@ def test_file_versions():
     file_version = 1
     FileVersion.objects.create(
         file_name=file_name,
-        version_number=file_version
+        version_number=file_version,
     )
     files = FileVersion.objects.all()
     assert files.count() == 1
