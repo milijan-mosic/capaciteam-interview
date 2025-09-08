@@ -1,7 +1,7 @@
 services:
   api:
     build:
-      context: ./server/doc-manager
+      context: ./backend/doc-manager
       dockerfile: local.Dockerfile
     restart: always
     ports:
@@ -11,7 +11,7 @@ services:
 
   www:
     build:
-      context: ./client/doc-manager
+      context: ./frontend/doc-manager
       dockerfile: local.Dockerfile
     restart: always
     ports:
