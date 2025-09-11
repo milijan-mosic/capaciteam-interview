@@ -1,0 +1,23 @@
+app.doc-manager.local {
+    tls internal
+
+    handle /static/* {
+        reverse_proxy api:8001
+    }
+
+    handle /api/* {
+        reverse_proxy api:8001
+    }
+
+    handle {
+        reverse_proxy www:3000
+    }
+}
+
+db.doc-manager.local {
+    tls internal
+
+    handle {
+        reverse_proxy db-admin:80
+    }
+}

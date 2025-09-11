@@ -1,25 +1,23 @@
-FROM python:3.11-alpine AS builder
+FROM python:3.11-alpine
 
 ENV PIP_DISABLE_PIP_VERSION_CHECK 1
 ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
-RUN apk add --no-cache make cmake
-WORKDIR /
-RUN pip install virtualenv
+RUN apk add --no-cache \
+    gcc \
+    musl-dev \
+    python3-dev \
+    libffi-dev \
+    libjpeg-turbo-dev \
+    zlib-dev \
+    make
 
-COPY . .
-RUN make build
+WORKDIR /app
 
-# ---------------------------------------------------------------- #
-
-FROM python:3.11-alpine
-
-WORKDIR /
-COPY --from=builder . .
-RUN make makemigrations
-RUN make migrate
-# RUN make fixtures
+COPY requirements ./requirements
+RUN pip install --upgrade pip setuptools wheel
+RUN pip install -r requirements/dev.txt
 
 EXPOSE 8001
 CMD ["make", "serve"]

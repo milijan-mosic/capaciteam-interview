@@ -9,11 +9,11 @@ from rest_framework.authtoken.views import obtain_auth_token
 # API URLS
 urlpatterns = [
     # API base url
-    path("api/", include("propylon_document_manager.site.api_router")),
+    path("api/core", include("propylon_document_manager.site.api_router")),
     # DRF auth token
-    path("api-auth/", include("rest_framework.urls")),
-    path("auth-token/", obtain_auth_token),
-]
+    path("api/auth/", include("rest_framework.urls")),
+    path("api/token/", obtain_auth_token),
+] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
     if "debug_toolbar" in settings.INSTALLED_APPS:

@@ -1,23 +1,74 @@
 services:
+  server:
+    image: caddy:2.10-alpine
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./server/local.Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - doc-manager
+
+  database:
+    image: postgres:17.6-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    ports:
+      - 5432:5432
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+    networks:
+      - doc-manager
+
+  db-admin:
+    image: dpage/pgadmin4:9.8.0
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    volumes:
+      - ./db-admin:/var/lib/pgadmin
+    networks:
+      - doc-manager
+
   api:
+    restart: always
     build:
       context: ./backend/doc-manager
       dockerfile: local.Dockerfile
-    restart: always
+    environment:
+      DJANGO_ROOT_USERNAME: ${DJANGO_ROOT_USERNAME}
+      DJANGO_ROOT_EMAIL: ${DJANGO_ROOT_EMAIL}
+      DJANGO_ROOT_PASSWORD: ${DJANGO_ROOT_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_HOST: ${POSTGRES_HOST}
+      POSTGRES_PORT: ${POSTGRES_PORT}
+    volumes:
+      - ./backend/doc-manager:/app
     ports:
       - 8001:8001
     networks:
-      - internal-network
+      - doc-manager
 
   www:
+    restart: always
     build:
       context: ./frontend/doc-manager
       dockerfile: local.Dockerfile
-    restart: always
-    ports:
-      - 3000:3000
+    volumes:
+      - ./frontend/doc-manager:/app
     networks:
-      - internal-network
+      - doc-manager
+
+volumes:
+  database:
+  db-admin:
 
 networks:
-  internal-network:
+  doc-manager:
