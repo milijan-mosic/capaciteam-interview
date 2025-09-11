@@ -60,10 +60,10 @@ env_clean: clean
 # Developer Utilities
 # ====================
 shell:
-	$(IN_ENV) django-admin shell
+	$(IN_ENV) python manage.py shell
 
 collectstatic:
-	$(IN_ENV) django-admin collectstatic
+	$(IN_ENV) python manage.py collectstatic
 
 build-reqs: env
 	$(IN_ENV) pip install -r requirements/dev.txt
@@ -72,20 +72,23 @@ build: build-reqs
 	$(IN_ENV) pip install -e .
 
 plain-serve:
-	$(IN_ENV) django-admin runserver 0.0.0.0:8001
+	$(IN_ENV) python manage.py runserver 0.0.0.0:8001
 
-serve: build makemigrations migrate plain-serve
+create-root:
+	$(IN_ENV) sh create-root.sh
+
+serve: build makemigrations migrate create-root plain-serve
 
 # ============================
 # Database & Fixture Utilities
 # ============================
 makemigrations:
-	$(IN_ENV) django-admin makemigrations
+	$(IN_ENV) python manage.py makemigrations
 
 migrate:
-	$(IN_ENV) django-admin migrate
+	$(IN_ENV) python manage.py migrate
 
 fixture: build makemigrations migrate plain-fixture
 
 plain-fixture:
-	$(IN_ENV) django-admin load_file_fixtures
+	$(IN_ENV) python manage.py load_file_fixtures
