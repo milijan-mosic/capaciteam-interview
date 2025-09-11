@@ -280,3 +280,4 @@ propylon_document_manager/media/
 *.sqlite*
 
 .env*
+*.db
