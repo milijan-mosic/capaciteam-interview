@@ -17,4 +17,4 @@ class Command(BaseCommand):
         for file_name in file_versions:
             FileVersion.objects.create(file_name=file_name, version_number=1)
 
-        self.stdout.write(self.style.SUCCESS('Successfully created %s file versions' % len(file_versions)))
+        self.stdout.write(self.style.SUCCESS("Successfully created %s file versions" % len(file_versions)))

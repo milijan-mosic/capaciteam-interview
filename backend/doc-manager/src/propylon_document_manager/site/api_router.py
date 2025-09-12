@@ -10,6 +10,4 @@ else:
 
 router.register("file_versions", FileVersionViewSet)
 
-
-app_name = "api"
 urlpatterns = router.urls

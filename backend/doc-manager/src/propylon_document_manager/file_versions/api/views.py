@@ -1,14 +1,10 @@
-from django.shortcuts import render
-from rest_framework.mixins import ListModelMixin, RetrieveModelMixin
-from rest_framework.viewsets import GenericViewSet
+from rest_framework import viewsets
 
 from ..models import FileVersion
 from .serializers import FileVersionSerializer
 
 
-class FileVersionViewSet(RetrieveModelMixin, ListModelMixin, GenericViewSet):
-    authentication_classes = []
-    permission_classes = []
-    serializer_class = FileVersionSerializer
+class FileVersionViewSet(viewsets.ModelViewSet):
     queryset = FileVersion.objects.all()
+    serializer_class = FileVersionSerializer
     lookup_field = "id"

@@ -11,7 +11,6 @@ argon2-cffi-bindings==21.2.0
 asgiref==3.7.2
     # via
     #   django
-    #   django-cors-headers
 astroid==3.0.2
     # via pylint
 asttokens==2.4.1
@@ -49,18 +48,12 @@ distlib==0.3.8
 django==5.0.1
     # via
     #   -r requirements/base.in
-    #   django-allauth
-    #   django-cors-headers
     #   django-debug-toolbar
     #   django-extensions
     #   django-model-utils
     #   django-stubs
     #   django-stubs-ext
     #   djangorestframework
-django-allauth==0.60.0
-    # via -r requirements/base.in
-django-cors-headers==4.3.1
-    # via -r requirements/base.in
 django-coverage-plugin==3.1.0
     # via -r requirements/local.in
 django-debug-toolbar==4.2.0
@@ -165,8 +158,6 @@ pyflakes==3.2.0
     # via flake8
 pygments==2.17.2
     # via ipython
-pyjwt[crypto]==2.8.0
-    # via django-allauth
 pylint==3.0.3
     # via
     #   pylint-django
@@ -188,19 +179,14 @@ python-dateutil==2.8.2
     # via faker
 python-slugify==8.0.1
     # via -r requirements/base.in
-python3-openid==3.2.0
-    # via django-allauth
 pytz==2023.3.post1
     # via djangorestframework
 pyyaml==6.0.1
     # via pre-commit
 requests==2.31.0
     # via
-    #   django-allauth
     #   djangorestframework-stubs
     #   requests-oauthlib
-requests-oauthlib==1.3.1
-    # via django-allauth
 six==1.16.0
     # via
     #   asttokens

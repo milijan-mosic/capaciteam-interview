@@ -11,7 +11,12 @@ SECRET_KEY = env(
     default="Gl4iuH1UFYTP9Zw8d6d6R5qHZg26Zevs7hNJHwHns8jw4srdsyPJwXCvBQkPEPmd",
 )
 # https://docs.djangoproject.com/en/dev/ref/settings/#allowed-hosts
-ALLOWED_HOSTS = ["localhost", "0.0.0.0", "127.0.0.1", "app.doc-manager.local"]
+ALLOWED_HOSTS = [
+    "localhost",
+    "0.0.0.0",
+    "127.0.0.1",
+    "app.doc-manager.local",
+]
 
 CSRF_TRUSTED_ORIGINS = ["https://app.doc-manager.local"]
 
