@@ -4,19 +4,36 @@ from django.db import models
 
 
 class FileVersion(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    id = models.UUIDField(
+        primary_key=True,
+        default=uuid.uuid4,
+        editable=False,
+    )
     #
-    name = models.CharField(max_length=255)
-    url = models.URLField()
-    version = models.PositiveIntegerField()
+    name = models.CharField(
+        max_length=255,
+        blank=False,
+        null=False,
+    )
+    url = models.URLField(
+        blank=True,
+        null=True,
+    )
+    version = models.PositiveIntegerField(default=1)
     #
-    content = models.BinaryField()
+    content = models.BinaryField(
+        blank=True,
+        null=True,
+    )
     #
     created_at = models.DateTimeField(auto_now_add=True)
     modified_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         ordering = ["-version"]
+
+    def __str__(self):
+        return f"{self.name} (v{self.version})"
 
     def get_download_url(self):
         from django.urls import reverse
