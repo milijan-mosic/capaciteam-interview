@@ -10,3 +10,4 @@ django-environ  # https://github.com/joke2k/django-environ
 django-model-utils  # https://github.com/jazzband/django-model-utils
 # Django REST Framework
 djangorestframework  # https://github.com/encode/django-rest-framework
+djangorestframework-simplejwt  # https://django-rest-framework-simplejwt.readthedocs.io

@@ -13,7 +13,7 @@ else
     echo "Creating superuser..."
     python manage.py createsuperuser --noinput \
         --username "$DJANGO_SUPERUSER_USERNAME" \
-        --email "$DJANGO_SUPERUSER_EMAIL"
+        --email "$DJANGO_SUPERUSER_EMAIL" || true
 
     python manage.py shell -c "from django.contrib.auth import get_user_model; u=get_user_model().objects.get(email='$DJANGO_SUPERUSER_EMAIL'); u.set_password('$DJANGO_SUPERUSER_PASSWORD'); u.save()"
 fi
