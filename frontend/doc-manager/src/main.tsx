@@ -1,7 +1,9 @@
 import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
-import { BrowserRouter } from "react-router";
+import { BrowserRouter, Route, Routes } from "react-router";
 import { Login } from "@/pages/auth/Login";
+import { MyFiles } from "@/pages/dashboard/Files";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
 
 import "./index.css";
 import "@fontsource/roboto/300.css";
@@ -14,7 +16,18 @@ const root: HTMLElement | null = document.getElementById("root");
 createRoot(root!).render(
   <StrictMode>
     <BrowserRouter>
-      <Login />
+      <Routes>
+        <Route path="login" element={<Login />} />
+
+        <Route
+          index
+          element={
+            <ProtectedRoute>
+              <MyFiles />
+            </ProtectedRoute>
+          }
+        />
+      </Routes>
     </BrowserRouter>
   </StrictMode>
 );
