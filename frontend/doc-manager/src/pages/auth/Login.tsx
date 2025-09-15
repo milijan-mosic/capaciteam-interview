@@ -23,7 +23,7 @@ export const Login = () => {
 
     try {
       const response = await axios.post(
-        "/api/auth/login/",
+        "/api/token",
         {
           username,
           password,
