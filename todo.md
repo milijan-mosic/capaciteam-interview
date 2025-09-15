@@ -1,18 +1,30 @@
 # Frontend
 
-- **Login** (public)
-- **Dashboard** (My Files) (auth. protected)
+[x] **Login** (public)
+[] **Dashboard** (My Files) (auth. protected)
 
 ## Minor
 
-- UI for viewing differences in content between file versions
+[] UI for viewing differences in content between file versions
 
 # Backend
 
-- **Auth**
-- **CRUD of files** (upload)
+[x] **Auth**
+[] **CRUD of files** (upload)
 
 ## Minor
 
-- Basic read/write permissions enforcement on individual versions of
-  documents
+[] Basic read/write permissions enforcement on individual versions of
+documents
+
+# Ops
+
+[] Upload doc
+[] List all docs
+
+[] Download latest
+[] Mark as favorite
+
+[] Upload new version
+[] List all versions per file
+[] View version in the browser
