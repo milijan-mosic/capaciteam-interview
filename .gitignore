@@ -281,3 +281,4 @@ propylon_document_manager/media/
 
 .env*
 *.db
+.vite
