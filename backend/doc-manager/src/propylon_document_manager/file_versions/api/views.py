@@ -22,7 +22,7 @@ def upload_new_file(request):
 def list_all_files(request):
     files = FileVersion.objects.filter(owner=request.user)
     serializer = FileVersionSerializer(files, many=True)
-    return Response(serializer.data)
+    return Response({"files": serializer.data})
 
 
 @api_view(["GET"])

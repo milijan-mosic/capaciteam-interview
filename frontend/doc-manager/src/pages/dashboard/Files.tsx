@@ -55,6 +55,11 @@ export const MyFiles = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [pageSize, setPageSize] = useState<number>(10);
 
+  const [uploadDocOpen, setUploadDocOpen] = useState(false);
+  const [newFile, setNewFile] = useState<File | null>(null);
+  const [newFileName, setNewFileName] = useState("");
+  const [newFileUrl, setNewFileUrl] = useState("");
+
   // Versions modal
   const [versionsOpen, setVersionsOpen] = useState(false);
   const [currentFileId, setCurrentFileId] = useState<string | null>(null);
@@ -288,17 +293,9 @@ export const MyFiles = () => {
       </Typography>
 
       <Box sx={{ display: "flex", gap: 2, alignItems: "center", mb: 2 }}>
-        <label htmlFor="upload-document-input">
-          <input
-            id="upload-document-input"
-            type="file"
-            style={{ display: "none" }}
-            onChange={handleUploadNewDocument}
-          />
-          <Button variant="contained" component="span">
-            Upload Document
-          </Button>
-        </label>
+        <Button variant="contained" onClick={() => setUploadDocOpen(true)}>
+          Upload Document
+        </Button>
 
         <Tabs value={tab} onChange={(_, v) => setTab(v)}>
           <Tab label="All files" />
@@ -307,6 +304,83 @@ export const MyFiles = () => {
 
         <LogoutButton />
       </Box>
+
+      {/* Upload new document modal */}
+      <Dialog
+        open={uploadDocOpen}
+        onClose={() => setUploadDocOpen(false)}
+        fullWidth
+        maxWidth="sm"
+      >
+        <DialogTitle>Upload New Document</DialogTitle>
+        <DialogContent
+          sx={{ display: "flex", flexDirection: "column", gap: 2, mt: 1 }}
+        >
+          <Button variant="outlined" component="label">
+            {newFile ? newFile.name : "Select File"}
+            <input
+              type="file"
+              hidden
+              onChange={(e) => setNewFile(e.target.files?.[0] || null)}
+            />
+          </Button>
+
+          <Typography variant="body2">File Name</Typography>
+          <input
+            type="text"
+            value={newFileName}
+            onChange={(e) => setNewFileName(e.target.value)}
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          />
+
+          <Typography variant="body2">Desired URL</Typography>
+          <input
+            type="text"
+            value={newFileUrl}
+            onChange={(e) => setNewFileUrl(e.target.value)}
+            style={{
+              padding: "8px",
+              borderRadius: "4px",
+              border: "1px solid #ccc",
+            }}
+          />
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setUploadDocOpen(false)}>Cancel</Button>
+          <Button
+            variant="contained"
+            disabled={!newFile || !newFileName || !newFileUrl}
+            onClick={async () => {
+              if (!newFile) return;
+              const form = new FormData();
+              form.append("file", newFile);
+              form.append("name", newFileName);
+              form.append("url", newFileUrl);
+
+              try {
+                await api.post("/files/upload", form, {
+                  headers: { "Content-Type": "multipart/form-data" },
+                });
+                setSnack({ open: true, message: "Uploaded document" });
+                setUploadDocOpen(false);
+                setNewFile(null);
+                setNewFileName("");
+                setNewFileUrl("");
+                fetchFiles();
+              } catch (err) {
+                console.error(err);
+                setSnack({ open: true, message: "Upload failed" });
+              }
+            }}
+          >
+            Submit
+          </Button>
+        </DialogActions>
+      </Dialog>
 
       <div style={{ height: 550, width: "100%" }}>
         <DataGrid

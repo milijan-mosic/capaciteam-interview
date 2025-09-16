@@ -30,7 +30,8 @@ class FileVersion(models.Model):
         blank=False,
         null=False,
     )
-    url = models.URLField(
+    url = models.CharField(
+        max_length=255,
         blank=True,
         null=True,
     )
