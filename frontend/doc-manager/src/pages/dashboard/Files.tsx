@@ -21,6 +21,7 @@ import CloudDownloadIcon from "@mui/icons-material/CloudDownload";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import StarBorderIcon from "@mui/icons-material/StarBorder";
 import StarIcon from "@mui/icons-material/Star";
+import { LogoutButton } from "@/components/LogoutButton";
 
 // -------------------- Types --------------------
 type FileItem = {
@@ -42,7 +43,9 @@ const FAVORITES_KEY = "myfiles:favorites";
 // -------------------- Axios instance --------------------
 const api = axios.create({
   baseURL: "/api",
-  // You can add headers, interceptors here (auth token, etc.)
+  headers: {
+    Authorization: `Bearer ${localStorage.getItem("access")}`,
+  },
 });
 
 // -------------------- Component --------------------
@@ -182,7 +185,7 @@ export const MyFiles = () => {
     }
 
     try {
-      await api.post(`/files/${uploadFileId}/versions/upload`, form, {
+      await api.patch(`/files/${uploadFileId}/versions/upload`, form, {
         headers: { "Content-Type": "multipart/form-data" },
       });
       setSnack({ open: true, message: "Uploaded new version" });
@@ -293,7 +296,7 @@ export const MyFiles = () => {
             onChange={handleUploadNewDocument}
           />
           <Button variant="contained" component="span">
-            Select and Upload Document
+            Upload Document
           </Button>
         </label>
 
@@ -301,6 +304,8 @@ export const MyFiles = () => {
           <Tab label="All files" />
           <Tab label="Favorites" />
         </Tabs>
+
+        <LogoutButton />
       </Box>
 
       <div style={{ height: 550, width: "100%" }}>
