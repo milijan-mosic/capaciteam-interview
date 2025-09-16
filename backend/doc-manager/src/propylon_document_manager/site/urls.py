@@ -8,11 +8,11 @@ from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 urlpatterns = [
     # Admin urls
     path("api/admin", admin.site.urls),
-    # API base url
-    path("api/core", include("propylon_document_manager.site.api_router")),
     # DRF auth token
     path('api/token', TokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
+    # API base url
+    path("api/files/", include("propylon_document_manager.site.api_router")),
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 
 if settings.DEBUG:
