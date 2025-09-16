@@ -19,12 +19,16 @@ documents
 
 # Ops
 
-[] Upload doc
-[] List all docs
+[x] Upload doc
+[x] List all docs
 
 [] Download latest
-[] Mark as favorite
+[x] Mark as favorite
 
-[] Upload new version
-[] List all versions per file
+[x] Upload new version
+[x] List all versions per file
 [] View version in the browser
+
+---
+
+Implement and use MinIO for serving and storing the files
