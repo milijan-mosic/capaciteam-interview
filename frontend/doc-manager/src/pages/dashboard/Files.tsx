@@ -160,10 +160,10 @@ export const MyFiles = () => {
     setUploadOpen(true);
     setUploadFileId(id);
     try {
-      const res = await api.get<{ latestVersion: number }>(
+      const res = await api.get<{ version: number }>(
         `/files/${id}/versions/get-latest`
       );
-      setNextVersionForUpload(res.data.latestVersion + 1);
+      setNextVersionForUpload(res.data.version + 1);
     } catch (err) {
       console.error(err);
       setSnack({ open: true, message: "Failed to determine next version" });
@@ -183,8 +183,17 @@ export const MyFiles = () => {
     const file = e.target.files?.[0];
     if (!file || !uploadFileId) return;
 
+    const originalFile = files.find((f) => f.id === uploadFileId);
+    if (!originalFile) {
+      console.error("Original file not found");
+      return;
+    }
+
     const form = new FormData();
     form.append("file", file);
+
+    form.append("name", originalFile.name);
+
     if (nextVersionForUpload !== null) {
       form.append("version", String(nextVersionForUpload));
     }
@@ -195,27 +204,6 @@ export const MyFiles = () => {
       });
       setSnack({ open: true, message: "Uploaded new version" });
       closeUploadModal();
-      fetchFiles();
-    } catch (err) {
-      console.error(err);
-      setSnack({ open: true, message: "Upload failed" });
-    }
-  }
-
-  async function handleUploadNewDocument(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-
-    const form = new FormData();
-    form.append("file", file);
-
-    try {
-      await api.post("/files/upload", form, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
-      setSnack({ open: true, message: "Uploaded document" });
       fetchFiles();
     } catch (err) {
       console.error(err);
